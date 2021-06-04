@@ -1,0 +1,8 @@
+@import "../../scss/abstracts/main-abstracts.scss";
+
+.panel-item {
+  @extend %flexible;
+
+  margin-bottom: 15px;
+  width: 300px;
+}
