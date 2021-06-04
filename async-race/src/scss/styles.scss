@@ -1,0 +1,26 @@
+@import "./abstracts/main-abstracts.scss";
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.body {
+  height: 100vh;
+  font-family: "Caveat Brush", cursive;
+  font-size: $font-size;
+  color: $main-font-color;
+  background-color: $bg-color;
+}
