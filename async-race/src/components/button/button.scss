@@ -6,6 +6,10 @@
   font-weight: 700;
   text-transform: uppercase;
   border-radius: 7px;
-  background-color: $main-btn-bg;
+  background-color: $second-btn-bg;
   cursor: pointer;
+}
+
+.button--bg-main {
+  background-color: $main-btn-bg;
 }
