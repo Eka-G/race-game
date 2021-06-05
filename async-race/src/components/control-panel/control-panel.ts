@@ -16,7 +16,7 @@ class ControlPanel extends BaseComponent {
   private generateBtn = new Button('generate cars');
 
   constructor() {
-    super('div', ['controlPanel']);
+    super('div', ['control-panel']);
 
     appendElements(
       this.element,
@@ -26,6 +26,9 @@ class ControlPanel extends BaseComponent {
       this.resetBtn.element,
       this.generateBtn.element,
     );
+
+    this.raceBtn.element.classList.add('button--bg-main');
+    this.resetBtn.element.classList.add('button--bg-main');
   }
 }
 

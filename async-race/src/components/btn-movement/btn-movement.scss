@@ -1,0 +1,14 @@
+@import "../../scss/abstracts/main-abstracts.scss";
+
+.btn-movement {
+  height: fit-content;
+  color: $active-color;
+  border: 3px solid $active-color;
+  background-color: transparent;
+}
+
+.btn-movement-unactive {
+  color: $unactive-color;
+  border-color: $unactive-color;
+  cursor: default;
+}

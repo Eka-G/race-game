@@ -1,0 +1,8 @@
+@import "../../scss/abstracts/main-abstracts.scss";
+
+.track {
+  @extend %flexible;
+
+  width: 100%;
+  border-bottom: 4px dashed $second-color;
+}
