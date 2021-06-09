@@ -9,6 +9,10 @@
   border-radius: 7px;
   background-color: $second-btn-bg;
   cursor: pointer;
+
+  &[disabled] {
+    cursor: default;
+  }
 }
 
 .button--bg-main {

@@ -1,4 +1,8 @@
 .name-settings {
   max-width: 200px;
   border-radius: 5px;
+
+  &:invalid {
+    border: 2px solid #ff0000;
+  }
 }

@@ -1,6 +1,6 @@
 import BaseComponent from '../base-component';
 
-class ColorSettings extends BaseComponent {
+class ColorSettings extends BaseComponent<HTMLInputElement> {
   constructor() {
     super('input');
 
