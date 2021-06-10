@@ -5,6 +5,7 @@ class NameSettings extends BaseComponent<HTMLInputElement> {
   constructor(plaseholder: string, pattern?: string) {
     super('input', ['name-settings']);
 
+    this.element.setAttribute('name', 'name');
     this.element.setAttribute('type', 'text');
     this.element.setAttribute('placeholder', plaseholder);
 

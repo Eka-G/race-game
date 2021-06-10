@@ -1,7 +1,7 @@
 interface CarInterface {
   name: string;
   color: string;
-  id?: string;
+  id?: number;
 }
 
 export default CarInterface;

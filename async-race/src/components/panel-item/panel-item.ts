@@ -26,12 +26,13 @@ class PanelItem extends BaseComponent<HTMLFormElement> {
     this.btn.element.addEventListener('click', (event) => {
       event.preventDefault();
 
-      window.dispatchEvent(
-        new CreateEvent({
-          name: this.nameSettings.element.value,
-          color: this.colorSettings.element.value,
-        }),
-      );
+      const formData = new FormData(this.element);
+      const data = {
+        name: formData.get('name') as string,
+        color: formData.get('color') as string,
+      };
+
+      window.dispatchEvent(new CreateEvent(data));
     });
 
     appendElements(this.element, this.nameSettings.element, this.colorSettings.element, this.btn.element);
