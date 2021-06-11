@@ -13,12 +13,12 @@ class UpdatePanel extends PanelItem {
     this.addListeners();
   }
 
-  private makeActive(data: CarInterface) {
+  private toggleState(data: CarInterface, state: boolean) {
     this.nameSettings.element.value = data.name;
     this.colorSettings.element.value = data.color;
 
-    this.nameSettings.element.disabled = false;
-    this.btn.element.disabled = false;
+    this.nameSettings.element.disabled = state;
+    this.btn.element.disabled = state;
   }
 
   private addListeners() {
@@ -28,7 +28,7 @@ class UpdatePanel extends PanelItem {
       const targetCarInfo = await fetch(`${url}/${event.detail}`).then((response) => response.json());
       this.targetCarId = targetCarInfo.id;
 
-      this.makeActive(targetCarInfo);
+      this.toggleState(targetCarInfo, false);
     });
 
     this.btn.element.addEventListener('click', async (event) => {
@@ -49,6 +49,7 @@ class UpdatePanel extends PanelItem {
       }).then((response) => response.json());
 
       window.dispatchEvent(new UpdateEvent());
+      this.toggleState({ name: '', color: '#000000' }, true);
     });
   }
 }
