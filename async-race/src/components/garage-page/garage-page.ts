@@ -1,18 +1,12 @@
 import BaseComponent from '../base-component';
 import RaceParticipant from '../race-participant';
-import { CarInterface, CreateEvent, DeleteEvent, UpdateEvent, url } from '../../shared';
+import { CarInterface, CreateEvent, DeleteEvent, UpdateEvent, ChangeGarageEvent, url, garageState } from '../../shared';
 
 class GaragePage extends BaseComponent {
-  private limit = 7;
-
-  private startPage = 1;
-
-  private currentPage = 1;
-
   constructor() {
     super();
 
-    this.showCars(this.startPage, this.limit);
+    this.showCars(garageState.startPage, garageState.limit);
 
     window.addEventListener(CreateEvent.eventName, (event: CustomEventInit<CarInterface>) => {
       if (!event.detail) return;
@@ -46,7 +40,10 @@ class GaragePage extends BaseComponent {
 
   private updateContent() {
     this.clearContent();
-    this.showCars(this.currentPage, this.limit);
+
+    this.showCars(garageState.currentPage, garageState.limit);
+
+    window.dispatchEvent(new ChangeGarageEvent());
   }
 
   private async addCar(data: CarInterface) {
