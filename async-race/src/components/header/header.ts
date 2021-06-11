@@ -1,6 +1,6 @@
 import BaseComponent from '../base-component';
 import Button from '../button';
-import appendElements from '../../shared/appendFunc';
+import { appendElements } from '../../shared';
 import './header.scss';
 
 class Header extends BaseComponent {

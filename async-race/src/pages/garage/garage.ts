@@ -1,7 +1,7 @@
 import Page from '../page';
 import ControlPanel from '../../components/control-panel';
 import Garage from '../../components/garage';
-import appendElements from '../../shared/appendFunc';
+import { appendElements } from '../../shared';
 
 class GaragePage extends Page {
   private controlPanel = new ControlPanel();

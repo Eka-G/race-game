@@ -1,13 +1,14 @@
 import BaseComponent from '../base-component';
 import Button from '../button';
-import PanelItem from '../panel-item';
-import appendElements from '../../shared/appendFunc';
+import CreatePanel from '../create-panel-item';
+import UpdaterPanel from '../update-panel-item';
+import { appendElements } from '../../shared';
 import './control-panel.scss';
 
 class ControlPanel extends BaseComponent {
-  private createItem = new PanelItem('create');
+  private createItem = new CreatePanel();
 
-  private updateItem = new PanelItem('update');
+  private updateItem = new UpdaterPanel();
 
   private raceBtn = new Button('race');
 

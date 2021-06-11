@@ -2,7 +2,7 @@ import BaseComponent from '../base-component';
 import SmartTitle from '../smart-title';
 import GaragePage from '../garage-page';
 import Button from '../button';
-import appendElements from '../../shared/appendFunc';
+import { appendElements } from '../../shared';
 import './garage.scss';
 
 class Garage extends BaseComponent {

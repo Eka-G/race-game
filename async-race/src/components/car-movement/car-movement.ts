@@ -1,6 +1,6 @@
 import BaseComponent from '../base-component';
 import MovementButton from '../btn-movement';
-import appendElements from '../../shared/appendFunc';
+import { appendElements } from '../../shared';
 import './car-movement.scss';
 
 class CarMovement extends BaseComponent {

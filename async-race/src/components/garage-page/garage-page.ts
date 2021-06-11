@@ -1,6 +1,6 @@
 import BaseComponent from '../base-component';
 import RaceParticipant from '../race-participant';
-import { CarInterface, CreateEvent, DeleteEvent } from '../../shared';
+import { CarInterface, CreateEvent, DeleteEvent, UpdateEvent, url } from '../../shared';
 
 class GaragePage extends BaseComponent {
   private limit = 7;
@@ -25,10 +25,14 @@ class GaragePage extends BaseComponent {
 
       this.removeCar(event.detail);
     });
+
+    window.addEventListener(UpdateEvent.eventName, () => {
+      this.updateContent();
+    });
   }
 
   private async showCars(pageNum: number, limit: number) {
-    const cars = await fetch(`http://127.0.0.1:3000/garage?_page=${pageNum}&_limit=${limit}`).then((res) => res.json());
+    const cars = await fetch(`${url}?_page=${pageNum}&_limit=${limit}`).then((res) => res.json());
 
     cars.forEach((item: CarInterface) => {
       const car = new RaceParticipant(item);
@@ -46,7 +50,7 @@ class GaragePage extends BaseComponent {
   }
 
   private async addCar(data: CarInterface) {
-    const newCarInfo = await fetch('http://127.0.0.1:3000/garage', {
+    const newCarInfo = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
@@ -62,8 +66,7 @@ class GaragePage extends BaseComponent {
   }
 
   private async removeCar(carId: number) {
-    console.log('removeCar in page');
-    await fetch(`http://127.0.0.1:3000/garage/${carId}`, { method: 'DELETE' });
+    await fetch(`${url}/${carId}`, { method: 'DELETE' });
 
     this.updateContent();
   }

@@ -1,8 +1,7 @@
 import BaseComponent from '../base-component';
 import Button from '../button';
-import appendElements from '../../shared/appendFunc';
+import { appendElements, DeleteEvent, SelectEvent } from '../../shared';
 import './car-info.scss';
-import { DeleteEvent } from '../../shared';
 
 class CarInfo extends BaseComponent {
   private selectButton = new Button('select');
@@ -21,8 +20,13 @@ class CarInfo extends BaseComponent {
 
     appendElements(this.element, this.selectButton.element, this.removeButton.element, this.title.element);
 
-    this.removeButton.element.addEventListener('click', () => {
-      window.dispatchEvent(new DeleteEvent(this.carId));
+    CarInfo.addListener(this.removeButton.element, new DeleteEvent(this.carId));
+    CarInfo.addListener(this.selectButton.element, new SelectEvent(this.carId));
+  }
+
+  private static addListener(elem: HTMLButtonElement, customEvent: CustomEvent) {
+    elem.addEventListener('click', () => {
+      window.dispatchEvent(customEvent);
     });
   }
 }
