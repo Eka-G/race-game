@@ -1,7 +1,11 @@
 .car {
+  position: absolute;
   width: 80px;
   height: 40px;
+  left: 0;
+  bottom: 0;
   background-color: #000000;
+
   mask-image: url(../../assets/car.svg);
   mask-size:80px 40px;
   mask-position: center;
@@ -10,6 +14,7 @@
   -webkit-mask-size: 80px 40px;
   -webkit-mask-position: center;
   -webkit-mask-repeat: no-repeat;
+
   background-size: contain;
   transform: scale(-1, 1);
 }

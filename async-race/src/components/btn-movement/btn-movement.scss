@@ -7,7 +7,7 @@
   background-color: transparent;
 }
 
-.btn-movement-unactive {
+.btn-movement:disabled {
   color: $unactive-color;
   border-color: $unactive-color;
   cursor: default;

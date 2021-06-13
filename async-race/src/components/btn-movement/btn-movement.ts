@@ -7,10 +7,6 @@ class MovementButton extends Button {
 
     this.element.classList.add('btn-movement');
   }
-
-  toggleUnactive() {
-    this.element.classList.toggle('btn-movement-unactive');
-  }
 }
 
 export default MovementButton;

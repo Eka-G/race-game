@@ -3,6 +3,9 @@
 .track {
   @extend %flexible;
 
+  position: relative;
+  margin-right: 90px;
   width: 100%;
+  height: 40px;
   border-bottom: 4px dashed $second-color;
 }

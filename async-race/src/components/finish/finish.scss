@@ -1,7 +1,9 @@
 .finish {
-  margin-right: 100px;
+  position: absolute;
   width: 40px;
   height: 40px;
+  right: 0;
+  bottom: 0;
   background: no-repeat center url("../../assets/finish.svg");
   background-size: contain;
 }

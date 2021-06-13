@@ -33,7 +33,7 @@ class GaragePage extends BaseComponent {
   private async showCars(pageNum: number, limit: number) {
     this.clearContent();
 
-    const cars = await fetch(`${url}?_page=${pageNum}&_limit=${limit}`).then((res) => res.json());
+    const cars = await fetch(`${url.garage}?_page=${pageNum}&_limit=${limit}`).then((res) => res.json());
 
     cars.forEach((item: CarInterface) => {
       const car = new RaceParticipant(item);
@@ -52,7 +52,7 @@ class GaragePage extends BaseComponent {
   }
 
   private static async addCar(data: CarInterface) {
-    await fetch(url, {
+    await fetch(url.garage, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
@@ -62,7 +62,7 @@ class GaragePage extends BaseComponent {
   }
 
   private async removeCar(carId: number) {
-    await fetch(`${url}/${carId}`, { method: 'DELETE' });
+    await fetch(`${url.garage}/${carId}`, { method: 'DELETE' });
 
     this.updateContent();
   }

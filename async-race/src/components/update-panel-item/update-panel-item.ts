@@ -26,7 +26,7 @@ class UpdatePanel extends PanelItem {
     window.addEventListener(SelectEvent.eventName, async (event: CustomEventInit<string>) => {
       if (!event.detail) return;
 
-      const targetCarInfo = await fetch(`${url}/${event.detail}`).then((response) => response.json());
+      const targetCarInfo = await fetch(`${url.garage}/${event.detail}`).then((response) => response.json());
       this.targetCarId = targetCarInfo.id;
 
       this.toggleState(targetCarInfo, false);
@@ -41,7 +41,7 @@ class UpdatePanel extends PanelItem {
         color: formData.get('color') as string,
       };
 
-      await fetch(`${url}/${this.targetCarId}`, {
+      await fetch(`${url.garage}/${this.targetCarId}`, {
         method: 'PUT',
         body: JSON.stringify(data),
         headers: {

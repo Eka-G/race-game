@@ -8,3 +8,8 @@ export interface CreateEventDetail {
   carInfo: CarInterface;
   carAmount: number;
 }
+
+export interface StartEventDetail {
+  id: number;
+  animationSpeed: number;
+}

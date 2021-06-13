@@ -28,7 +28,7 @@ class Garage extends BaseComponent {
   }
 
   private static async countCars() {
-    const garageInfo = await fetch(`${url}?_page=${garageState.currentPage}&_limit=${garageState.limit}`);
+    const garageInfo = await fetch(`${url.garage}?_page=${garageState.currentPage}&_limit=${garageState.limit}`);
     const res = garageInfo.headers.get('X-Total-Count');
     console.log(res);
     return res;

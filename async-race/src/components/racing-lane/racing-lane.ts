@@ -6,7 +6,7 @@ import { appendElements } from '../../shared';
 import './racing-lane.scss';
 
 class RacingLane extends BaseComponent {
-  private carMovement = new CarMovement();
+  private carMovement;
 
   private track;
 
@@ -15,7 +15,10 @@ class RacingLane extends BaseComponent {
 
     this.track = new Track(car);
 
-    appendElements(this.element, this.carMovement.element, this.track.element);
+    if (car.id) {
+      this.carMovement = new CarMovement(car.id);
+      appendElements(this.element, this.carMovement.element, this.track.element);
+    }
   }
 }
 
