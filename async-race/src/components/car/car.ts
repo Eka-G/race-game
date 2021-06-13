@@ -1,6 +1,6 @@
 import BaseComponent from '../base-component';
 import './car.scss';
-import { CarInterface } from '../../shared';
+import type { CarInterface } from '../../types';
 
 class Car extends BaseComponent {
   private name: string;

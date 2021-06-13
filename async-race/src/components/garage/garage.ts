@@ -27,14 +27,15 @@ class Garage extends BaseComponent {
     window.addEventListener(ChangeGarageEvent.eventName, () => this.updateTitles());
   }
 
-  private static async coutCars() {
+  private static async countCars() {
     const garageInfo = await fetch(`${url}?_page=${garageState.currentPage}&_limit=${garageState.limit}`);
     const res = garageInfo.headers.get('X-Total-Count');
+    console.log(res);
     return res;
   }
 
   private async render() {
-    const carValue = await Garage.coutCars();
+    const carValue = await Garage.countCars();
     this.mainTitle = new SmartTitle('h1', 'main-title', `Garage(${carValue})`);
 
     this.pageTitle = new SmartTitle('h2', 'page-title', `Page # ${garageState.currentPage}`);
@@ -53,7 +54,7 @@ class Garage extends BaseComponent {
   }
 
   public async updateTitles() {
-    const carValue = await Garage.coutCars();
+    const carValue = await Garage.countCars();
 
     if (!(this.mainTitle && this.pageTitle)) return;
 

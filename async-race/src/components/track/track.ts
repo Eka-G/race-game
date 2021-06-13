@@ -2,7 +2,7 @@ import BaseComponent from '../base-component';
 import Car from '../car';
 import Finish from '../finish';
 import './track.scss';
-import { CarInterface } from '../../shared';
+import type { CarInterface } from '../../types';
 
 class Track extends BaseComponent {
   private car;

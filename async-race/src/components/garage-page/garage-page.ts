@@ -1,6 +1,7 @@
+import type { CreateEventDetail, CarInterface } from '../../types';
 import BaseComponent from '../base-component';
 import RaceParticipant from '../race-participant';
-import { CarInterface, CreateEvent, DeleteEvent, UpdateEvent, ChangeGarageEvent, url, garageState } from '../../shared';
+import { CreateEvent, DeleteEvent, UpdateEvent, ChangeGarageEvent, url, garageState } from '../../shared';
 
 class GaragePage extends BaseComponent {
   constructor() {
@@ -8,10 +9,14 @@ class GaragePage extends BaseComponent {
 
     this.showCars(garageState.startPage, garageState.limit);
 
-    window.addEventListener(CreateEvent.eventName, (event: CustomEventInit<CarInterface>) => {
+    window.addEventListener(CreateEvent.eventName, async (event: CustomEventInit<CreateEventDetail>) => {
       if (!event.detail) return;
 
-      this.addCar(event.detail);
+      await GaragePage.addCar(event.detail.carInfo);
+
+      if (event.detail.carAmount === garageState.maxAddingCar) {
+        window.dispatchEvent(new UpdateEvent());
+      }
     });
 
     window.addEventListener(DeleteEvent.eventName, (event: CustomEventInit<number>) => {
@@ -26,6 +31,8 @@ class GaragePage extends BaseComponent {
   }
 
   private async showCars(pageNum: number, limit: number) {
+    this.clearContent();
+
     const cars = await fetch(`${url}?_page=${pageNum}&_limit=${limit}`).then((res) => res.json());
 
     cars.forEach((item: CarInterface) => {
@@ -39,27 +46,19 @@ class GaragePage extends BaseComponent {
   }
 
   private updateContent() {
-    this.clearContent();
-
     this.showCars(garageState.currentPage, garageState.limit);
 
     window.dispatchEvent(new ChangeGarageEvent());
   }
 
-  private async addCar(data: CarInterface) {
-    const newCarInfo = await fetch(url, {
+  private static async addCar(data: CarInterface) {
+    await fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
     }).then((res) => res.json());
-
-    const newCar = new RaceParticipant(newCarInfo);
-
-    this.element.appendChild(newCar.element);
-
-    this.updateContent();
   }
 
   private async removeCar(carId: number) {

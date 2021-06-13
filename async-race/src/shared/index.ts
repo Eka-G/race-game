@@ -1,4 +1,3 @@
-export { default as CarInterface } from './car-interface';
 export { default as CreateEvent } from './create-event';
 export { default as DeleteEvent } from './delete-event';
 export { default as SelectEvent } from './select-event';
@@ -7,3 +6,6 @@ export { default as ChangeGarageEvent } from './change-garage-event';
 export { default as appendElements } from './append-func';
 export { default as url } from './url';
 export { default as garageState } from './garage-state';
+export { default as getRandomName } from './get-random-name';
+export { default as getRandomColor } from './get-random-color';
+export { default as getRandomCar } from './get-random-car';

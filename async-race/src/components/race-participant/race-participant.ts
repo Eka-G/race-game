@@ -1,7 +1,8 @@
+import type { CarInterface } from '../../types';
 import BaseComponent from '../base-component';
 import CarInfo from '../car-info';
 import RacingLane from '../racing-lane';
-import { appendElements, CarInterface } from '../../shared';
+import { appendElements } from '../../shared';
 import './race-participant.scss';
 
 class RaceParticipant extends BaseComponent {

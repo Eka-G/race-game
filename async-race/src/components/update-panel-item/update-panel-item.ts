@@ -1,5 +1,6 @@
+import type { CarInterface } from '../../types';
 import PanelItem from '../panel-item';
-import { CarInterface, SelectEvent, UpdateEvent, url } from '../../shared';
+import { SelectEvent, UpdateEvent, url } from '../../shared';
 
 class UpdatePanel extends PanelItem {
   private targetCarId: number | undefined;

@@ -14,7 +14,7 @@ class CreatePanel extends PanelItem {
         color: formData.get('color') as string,
       };
 
-      window.dispatchEvent(new CreateEvent(data));
+      window.dispatchEvent(new CreateEvent(data, 1));
     });
   }
 }

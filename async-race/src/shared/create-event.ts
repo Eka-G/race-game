@@ -1,10 +1,15 @@
-import { CarInterface } from '.';
+import type { CreateEventDetail, CarInterface } from '../types';
 
-class CreateDataEvent extends CustomEvent<CarInterface> {
+class CreateDataEvent extends CustomEvent<CreateEventDetail> {
   static eventName = 'create-car';
 
-  constructor(data: CarInterface) {
-    super(CreateDataEvent.eventName, { detail: data });
+  constructor(data: CarInterface, amount: number) {
+    super(CreateDataEvent.eventName, {
+      detail: {
+        carInfo: data,
+        carAmount: amount,
+      },
+    });
   }
 }
 

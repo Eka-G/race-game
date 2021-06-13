@@ -2,7 +2,7 @@ import BaseComponent from '../base-component';
 import Button from '../button';
 import CreatePanel from '../create-panel-item';
 import UpdaterPanel from '../update-panel-item';
-import { appendElements } from '../../shared';
+import { appendElements, CreateEvent, getRandomCar, garageState } from '../../shared';
 import './control-panel.scss';
 
 class ControlPanel extends BaseComponent {
@@ -30,6 +30,13 @@ class ControlPanel extends BaseComponent {
 
     this.raceBtn.element.classList.add('button--bg-main');
     this.resetBtn.element.classList.add('button--bg-main');
+
+    this.generateBtn.element.addEventListener('click', () => {
+      for (let i = 1; i <= garageState.maxAddingCar; i += 1) {
+        const data = getRandomCar();
+        window.dispatchEvent(new CreateEvent(data, i));
+      }
+    });
   }
 }
 
