@@ -1,10 +1,12 @@
 import type { CarInterface, StartEventDetail } from '../../types';
 import BaseComponent from '../base-component';
 import './car.scss';
-import { StartCarEvent, StopCarEvent } from '../../shared';
+import { StartCarEvent, StopCarEvent, PauseEngineEvent } from '../../shared';
 
 class Car extends BaseComponent {
   private name: string;
+
+  private animation?: Animation;
 
   constructor(data: CarInterface) {
     super('div', ['car']);
@@ -15,29 +17,42 @@ class Car extends BaseComponent {
     window.addEventListener(StartCarEvent.eventName, (event: CustomEventInit<StartEventDetail>) => {
       if (event.detail?.id !== data.id) return;
 
-      if (event.detail?.animationSpeed) this.startCar(event.detail.animationSpeed);
+      const carAnimationKeyFrame = new KeyframeEffect(this.element, [{ left: '0' }, { left: '100%' }], {
+        duration: event.detail?.animationSpeed,
+        fill: 'forwards',
+      });
+
+      const carAnimation = new Animation(carAnimationKeyFrame, document.timeline);
+      carAnimation.id = 'move';
+      this.animation = carAnimation;
+
+      if (event.detail?.animationSpeed) carAnimation.play();
     });
 
-    window.addEventListener(StopCarEvent.eventName, (event: CustomEventInit<number>) => {
-      if (event.detail !== data.id) return;
-
-      this.stopCar();
-    });
-  }
-
-  private startCar(time: number) {
-    this.element.animate([{ left: 0 }, { left: `100%` }], {
-      duration: Math.ceil(time),
-      id: 'move',
-      fill: 'forwards',
-    });
+    if (data.id) {
+      Car.addWindowListener(StopCarEvent.eventName, data.id, () => this.stopCar());
+      Car.addWindowListener(PauseEngineEvent.eventName, data.id, () => this.pauseEngine());
+    }
   }
 
   private stopCar() {
-    const animation = this.element.getAnimations().find(({ id }) => id === 'move');
-    if (!animation) return;
+    if (!this.animation) return;
 
-    animation.cancel();
+    this.animation.cancel();
+  }
+
+  private pauseEngine() {
+    if (!this.animation) return;
+
+    this.animation.pause();
+  }
+
+  private static addWindowListener(eventName: string, id: number, func: () => void) {
+    window.addEventListener(eventName, (event: CustomEventInit<number>) => {
+      if (event.detail !== id) return;
+
+      func();
+    });
   }
 }
 
