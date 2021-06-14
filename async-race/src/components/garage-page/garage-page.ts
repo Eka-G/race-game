@@ -14,7 +14,7 @@ class GaragePage extends BaseComponent {
 
       await GaragePage.addCar(event.detail.carInfo);
 
-      if (event.detail.carAmount === garageState.maxAddingCar) {
+      if (event.detail.carDuplicate === 0 || event.detail.carDuplicate === garageState.maxAddingCar) {
         window.dispatchEvent(new UpdateEvent());
       }
     });

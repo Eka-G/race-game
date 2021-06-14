@@ -6,7 +6,7 @@ export interface CarInterface {
 
 export interface CreateEventDetail {
   carInfo: CarInterface;
-  carAmount: number;
+  carDuplicate: number;
 }
 
 export interface StartEventDetail {
