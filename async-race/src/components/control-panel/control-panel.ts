@@ -1,4 +1,4 @@
-import type { CarInterface } from '../../types';
+import type { CarInterface, StartResponse } from '../../types';
 import BaseComponent from '../base-component';
 import Button from '../button';
 import CreatePanel from '../create-panel-item';
@@ -53,38 +53,21 @@ class ControlPanel extends BaseComponent {
     this.raceBtn.element.addEventListener('click', async () => {
       const cars = await ControlPanel.getCarsInfo();
 
-      // const requests = cars.map((car: CarInterface) => fetch(`${url.engine}?id=${car.id}&status=started`));
+      const requests = cars.map((car: CarInterface) =>
+        fetch(`${url.engine}?id=${car.id}&status=started`).then((response) => response.json()),
+      );
 
-      // Promise.all(requests).then( (responses) => {
-      //   for(let (response: StartResponse) of (responses: StartResponse[]) ) {
-      //     const speed: number = response.distance / response.velocity;
+      Promise.all<StartResponse>(requests).then((responses) => {
+        responses.forEach((response, i) => {
+          const speed = response.distance / response.velocity;
 
-      //     window.dispatchEvent(
-      //       new StartCarEvent({
-      //         id: car.id,
-      //         animationSpeed: speed,
-      //       }),
-      //     );
-      //   }
-
-      // });
-
-      cars.forEach(async (car: CarInterface) => {
-        if (!car.id) return;
-
-        const response = await fetch(`${url.engine}?id=${car.id}&status=started`);
-
-        if (!response) return;
-
-        const result = await response.json();
-        const speed: number = result.distance / result.velocity;
-
-        window.dispatchEvent(
-          new StartCarEvent({
-            id: car.id,
-            animationSpeed: speed,
-          }),
-        );
+          window.dispatchEvent(
+            new StartCarEvent({
+              id: cars[i].id,
+              animationSpeed: speed,
+            }),
+          );
+        });
       });
     });
 
