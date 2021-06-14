@@ -1,9 +1,12 @@
+import type { CarInterface } from '../../types';
 import BaseComponent from '../base-component';
 import Button from '../button';
 import CreatePanel from '../create-panel-item';
 import UpdaterPanel from '../update-panel-item';
-import { appendElements, CreateEvent, getRandomCar, garageState } from '../../shared';
+import { appendElements, CreateEvent, StartCarEvent, StopCarEvent, getRandomCar, garageState, url } from '../../shared';
 import './control-panel.scss';
+// import Car from '../car';
+// import garage from '../../pages/garage';
 
 class ControlPanel extends BaseComponent {
   private createItem = new CreatePanel();
@@ -31,11 +34,74 @@ class ControlPanel extends BaseComponent {
     this.raceBtn.element.classList.add('button--bg-main');
     this.resetBtn.element.classList.add('button--bg-main');
 
+    this.addListeners();
+  }
+
+  private static async getCarsInfo() {
+    const pageResponce = await fetch(`${url.garage}?_page=${garageState.currentPage}&_limit=${garageState.limit}`);
+    const cars = await pageResponce.json();
+
+    return cars;
+  }
+
+  private addListeners() {
     this.generateBtn.element.addEventListener('click', () => {
       for (let i = 1; i <= garageState.maxAddingCar; i += 1) {
         const data = getRandomCar();
         window.dispatchEvent(new CreateEvent(data, i));
       }
+    });
+
+    this.raceBtn.element.addEventListener('click', async () => {
+      const cars = await ControlPanel.getCarsInfo();
+
+      // const requests = cars.map((car: CarInterface) => fetch(`${url.engine}?id=${car.id}&status=started`));
+
+      // Promise.all(requests).then( (responses) => {
+      //   for(let (response: StartResponse) of (responses: StartResponse[]) ) {
+      //     const speed: number = response.distance / response.velocity;
+
+      //     window.dispatchEvent(
+      //       new StartCarEvent({
+      //         id: car.id,
+      //         animationSpeed: speed,
+      //       }),
+      //     );
+      //   }
+
+      // });
+
+      cars.forEach(async (car: CarInterface) => {
+        if (!car.id) return;
+
+        const response = await fetch(`${url.engine}?id=${car.id}&status=started`);
+
+        if (!response) return;
+
+        const result = await response.json();
+        const speed: number = result.distance / result.velocity;
+
+        window.dispatchEvent(
+          new StartCarEvent({
+            id: car.id,
+            animationSpeed: speed,
+          }),
+        );
+      });
+    });
+
+    this.resetBtn.element.addEventListener('click', async () => {
+      const cars = await ControlPanel.getCarsInfo();
+
+      cars.forEach(async (car: CarInterface) => {
+        if (!car.id) return;
+
+        const response = await fetch(`${url.engine}?id=${car.id}&status=stopped`);
+
+        if (!response.ok) return;
+
+        window.dispatchEvent(new StopCarEvent(car.id));
+      });
     });
   }
 }

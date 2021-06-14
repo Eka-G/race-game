@@ -13,3 +13,8 @@ export interface StartEventDetail {
   id: number;
   animationSpeed: number;
 }
+
+export interface StartResponse {
+  velocity: number;
+  distance: number;
+}
