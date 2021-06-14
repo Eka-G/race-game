@@ -18,3 +18,9 @@ export interface StartResponse {
   velocity: number;
   distance: number;
 }
+
+export interface WinEventDetail {
+  name: string;
+  id: number;
+  time: number;
+}

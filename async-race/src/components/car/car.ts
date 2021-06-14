@@ -1,7 +1,7 @@
 import type { CarInterface, StartEventDetail } from '../../types';
 import BaseComponent from '../base-component';
 import './car.scss';
-import { StartCarEvent, StopCarEvent, PauseEngineEvent } from '../../shared';
+import { StartCarEvent, StopCarEvent, PauseEngineEvent, winnerState, url } from '../../shared';
 
 class Car extends BaseComponent {
   private name: string;
@@ -15,16 +15,54 @@ class Car extends BaseComponent {
     this.name = data.name;
 
     window.addEventListener(StartCarEvent.eventName, (event: CustomEventInit<StartEventDetail>) => {
-      if (event.detail?.id !== data.id) return;
+      const { id, animationSpeed } = event.detail ?? {};
+
+      if (!(id === data.id && animationSpeed)) return;
 
       const carAnimationKeyFrame = new KeyframeEffect(this.element, [{ left: '0' }, { left: '100%' }], {
-        duration: event.detail?.animationSpeed,
+        duration: animationSpeed,
         fill: 'forwards',
       });
 
       const carAnimation = new Animation(carAnimationKeyFrame, document.timeline);
       carAnimation.id = 'move';
       this.animation = carAnimation;
+
+      this.animation.onfinish = async () => {
+        if (winnerState.winner || !data.id) return;
+
+        winnerState.winner = {
+          name: data.name,
+          id: data.id,
+          time: animationSpeed,
+        };
+
+        const winnerRes = await fetch(`${url.winners}?id=${data.id}`);
+        const time = (animationSpeed / 1000).toFixed(0);
+
+        if (!winnerRes.ok) {
+          await fetch(`${url.winners}`, {
+            method: 'POST',
+            body: JSON.stringify({
+              id: data.id,
+              wins: 1,
+              time,
+            }),
+          });
+        } else {
+          const winner = <{ id: number; wins: number; time: number }>await winnerRes.json();
+
+          await fetch(`${url.winners}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+              wins: winner.wins + 1,
+              time,
+            }),
+          });
+        }
+
+        alert(`${data.name} finished first ${time}s`);
+      };
 
       if (event.detail?.animationSpeed) carAnimation.play();
     });
