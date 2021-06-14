@@ -3,7 +3,16 @@ import BaseComponent from '../base-component';
 import Button from '../button';
 import CreatePanel from '../create-panel-item';
 import UpdaterPanel from '../update-panel-item';
-import { appendElements, CreateEvent, StartCarEvent, StopCarEvent, getRandomCar, garageState, url } from '../../shared';
+import {
+  appendElements,
+  CreateEvent,
+  StartCarEvent,
+  StopCarEvent,
+  PauseEngineEvent,
+  getRandomCar,
+  garageState,
+  url,
+} from '../../shared';
 import './control-panel.scss';
 
 class ControlPanel extends BaseComponent {
@@ -58,7 +67,7 @@ class ControlPanel extends BaseComponent {
       );
 
       Promise.all<StartResponse>(requests).then((responses) => {
-        responses.forEach((response, i) => {
+        responses.forEach(async (response, i) => {
           const speed = response.distance / response.velocity;
 
           window.dispatchEvent(
@@ -67,6 +76,10 @@ class ControlPanel extends BaseComponent {
               animationSpeed: speed,
             }),
           );
+
+          const driveResponse = await fetch(`${url.engine}?id=${cars[i].id}&status=drive`);
+
+          if (driveResponse.status === 500) window.dispatchEvent(new PauseEngineEvent(cars[i].id));
         });
       });
     });
