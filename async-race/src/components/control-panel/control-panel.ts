@@ -5,8 +5,6 @@ import CreatePanel from '../create-panel-item';
 import UpdaterPanel from '../update-panel-item';
 import { appendElements, CreateEvent, StartCarEvent, StopCarEvent, getRandomCar, garageState, url } from '../../shared';
 import './control-panel.scss';
-// import Car from '../car';
-// import garage from '../../pages/garage';
 
 class ControlPanel extends BaseComponent {
   private createItem = new CreatePanel();
@@ -92,16 +90,15 @@ class ControlPanel extends BaseComponent {
 
     this.resetBtn.element.addEventListener('click', async () => {
       const cars = await ControlPanel.getCarsInfo();
+      const requests = cars.map((car: CarInterface) => fetch(`${url.engine}?id=${car.id}&status=stopped`));
 
-      cars.forEach(async (car: CarInterface) => {
-        if (!car.id) return;
+      Promise.all(requests).then(() =>
+        cars.forEach((car: CarInterface) => {
+          if (!car.id) return;
 
-        const response = await fetch(`${url.engine}?id=${car.id}&status=stopped`);
-
-        if (!response.ok) return;
-
-        window.dispatchEvent(new StopCarEvent(car.id));
-      });
+          window.dispatchEvent(new StopCarEvent(car.id));
+        }),
+      );
     });
   }
 }
