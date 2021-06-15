@@ -1,7 +1,7 @@
 import type { CarInterface, StartEventDetail } from '../../types';
 import BaseComponent from '../base-component';
+import { StartCarEvent, StopCarEvent, PauseEngineEvent, WinEvent, winnerState, url } from '../../shared';
 import './car.scss';
-import { StartCarEvent, StopCarEvent, PauseEngineEvent, winnerState, url } from '../../shared';
 
 class Car extends BaseComponent {
   private name: string;
@@ -30,15 +30,15 @@ class Car extends BaseComponent {
 
       this.animation.onfinish = async () => {
         if (winnerState.winner || !data.id) return;
+        const time = (animationSpeed / 1000).toFixed(1);
 
         winnerState.winner = {
           name: data.name,
           id: data.id,
-          time: animationSpeed,
+          time: Number(time),
         };
 
-        const winnerRes = await fetch(`${url.winners}?id=${data.id}`);
-        const time = (animationSpeed / 1000).toFixed(0);
+        const winnerRes = await fetch(`${url.winners}/${data.id}`);
 
         if (!winnerRes.ok) {
           await fetch(`${url.winners}`, {
@@ -48,20 +48,26 @@ class Car extends BaseComponent {
               wins: 1,
               time,
             }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
           });
         } else {
           const winner = <{ id: number; wins: number; time: number }>await winnerRes.json();
 
-          await fetch(`${url.winners}`, {
+          await fetch(`${url.winners}/${data.id}`, {
             method: 'PUT',
             body: JSON.stringify({
               wins: winner.wins + 1,
-              time,
+              time: Number(time),
             }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
           });
         }
 
-        alert(`${data.name} finished first ${time}s`);
+        window.dispatchEvent(new WinEvent(winnerState.winner));
       };
 
       if (event.detail?.animationSpeed) carAnimation.play();

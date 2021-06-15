@@ -12,6 +12,7 @@ import {
   getRandomCar,
   garageState,
   url,
+  winnerState,
 } from '../../shared';
 import './control-panel.scss';
 
@@ -60,6 +61,7 @@ class ControlPanel extends BaseComponent {
     });
 
     this.raceBtn.element.addEventListener('click', async () => {
+      winnerState.winner = null;
       const cars = await ControlPanel.getCarsInfo();
 
       const requests = cars.map((car: CarInterface) =>
@@ -85,6 +87,7 @@ class ControlPanel extends BaseComponent {
     });
 
     this.resetBtn.element.addEventListener('click', async () => {
+      winnerState.winner = null;
       const cars = await ControlPanel.getCarsInfo();
       const requests = cars.map((car: CarInterface) => fetch(`${url.engine}?id=${car.id}&status=stopped`));
 

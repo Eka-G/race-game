@@ -1,0 +1,17 @@
+@import "../../scss/abstracts/main-abstracts.scss";
+
+.modal {
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+
+  &__title {
+    font-size: 2rem;
+    text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px $active-color, 0 0 30px $active-color, 0 0 40px $active-color, 0 0 55px $active-color, 0 0 75px $active-color;
+  }
+}

@@ -1,7 +1,8 @@
-import type { CreateEventDetail, CarInterface } from '../../types';
+import type { CreateEventDetail, CarInterface, WinEventDetail } from '../../types';
 import BaseComponent from '../base-component';
 import RaceParticipant from '../race-participant';
-import { CreateEvent, DeleteEvent, UpdateEvent, ChangeGarageEvent, url, garageState } from '../../shared';
+import { CreateEvent, DeleteEvent, UpdateEvent, ChangeGarageEvent, WinEvent, url, garageState } from '../../shared';
+import Modal from '../modal';
 
 class GaragePage extends BaseComponent {
   constructor() {
@@ -27,6 +28,13 @@ class GaragePage extends BaseComponent {
 
     window.addEventListener(UpdateEvent.eventName, () => {
       this.updateContent();
+    });
+
+    window.addEventListener(WinEvent.eventName, (event: CustomEventInit<WinEventDetail>) => {
+      if (!event.detail) return;
+
+      const modalWin = new Modal(event.detail.name, String(event.detail.time));
+      this.element.appendChild(modalWin.element);
     });
   }
 
