@@ -10,7 +10,10 @@ class WinnersContent extends PageStructure {
       pageName: 'Winners',
       pageClass: 'winners',
       pageUrl: url.winners,
-      currentPage: winnersState.currentPage,
+      getCurrentPage: () => winnersState.currentPage,
+      setCurrentPage: (currentPage: number) => {
+        winnersState.currentPage = currentPage;
+      },
       limitPage: winnersState.currentPage,
       updateFunc: () => {},
     });

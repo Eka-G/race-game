@@ -11,7 +11,10 @@ class Garage extends PageStructure {
       pageName: 'Garage',
       pageClass: 'garage',
       pageUrl: url.garage,
-      currentPage: garageState.currentPage,
+      getCurrentPage: () => garageState.currentPage,
+      setCurrentPage: (currentPage: number) => {
+        garageState.currentPage = currentPage;
+      },
       limitPage: garageState.limit,
       updateFunc: () => {},
     });

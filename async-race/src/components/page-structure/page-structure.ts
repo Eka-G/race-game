@@ -14,7 +14,9 @@ class PageStructure extends BaseComponent {
 
   private nextBtn = new Button('next');
 
-  private currentPage;
+  private getCurrentPage: () => number;
+
+  private setCurrentPage: (currentPage: number) => void;
 
   private limitPage;
 
@@ -28,13 +30,15 @@ class PageStructure extends BaseComponent {
     pageName: string;
     pageClass: string;
     pageUrl: string;
-    currentPage: number;
+    getCurrentPage: () => number;
+    setCurrentPage: (currentPage: number) => void;
     limitPage: number;
     updateFunc: () => void;
   }) {
     super('div', [pageSettings.pageClass]);
 
-    this.currentPage = pageSettings.currentPage;
+    this.getCurrentPage = pageSettings.getCurrentPage;
+    this.setCurrentPage = pageSettings.setCurrentPage;
     this.limitPage = pageSettings.limitPage;
     this.pageUrl = pageSettings.pageUrl;
     this.updateFunc = pageSettings.updateFunc;
@@ -47,7 +51,7 @@ class PageStructure extends BaseComponent {
   }
 
   private async countRecords() {
-    const garageInfo = await fetch(`${this.pageUrl}?_page=${this.currentPage}&_limit=${this.limitPage}`);
+    const garageInfo = await fetch(`${this.pageUrl}?_page=${this.getCurrentPage()}&_limit=${this.limitPage}`);
     const res = garageInfo.headers.get('X-Total-Count');
     return res;
   }
@@ -56,7 +60,7 @@ class PageStructure extends BaseComponent {
     const recordsValue = await this.countRecords();
     this.mainTitle = new SmartTitle('h1', 'main-title', `${this.pageName}(${recordsValue})`);
 
-    this.pageTitle = new SmartTitle('h2', 'page-title', `Page # ${this.currentPage}`);
+    this.pageTitle = new SmartTitle('h2', 'page-title', `Page # ${this.getCurrentPage()}`);
 
     appendElements(
       this.element,
@@ -72,13 +76,13 @@ class PageStructure extends BaseComponent {
     this.updateBtns();
 
     this.nextBtn.element.addEventListener('click', () => {
-      this.currentPage += 1;
+      this.setCurrentPage(this.getCurrentPage() + 1);
 
       this.updateFunc();
     });
 
     this.prevBtn.element.addEventListener('click', () => {
-      this.currentPage -= 1;
+      this.setCurrentPage(this.getCurrentPage() - 1);
 
       this.updateFunc();
     });
@@ -90,9 +94,9 @@ class PageStructure extends BaseComponent {
     if (!(this.mainTitle && this.pageTitle)) return;
 
     this.mainTitle.element.innerText = `Garage(${recordValue})`;
-    this.pageTitle.element.innerText = `Page # ${this.currentPage}`;
+    this.pageTitle.element.innerText = `Page # ${this.getCurrentPage()}`;
 
-    const carRemains = Number(recordValue) - this.currentPage * this.limitPage;
+    const carRemains = Number(recordValue) - this.getCurrentPage() * this.limitPage;
 
     if (carRemains >= 1) this.nextBtn.element.disabled = false;
   }
@@ -100,8 +104,8 @@ class PageStructure extends BaseComponent {
   public async updateBtns() {
     const recordValue = await this.countRecords();
 
-    const recordNextRemains = Number(recordValue) - this.currentPage * this.limitPage;
-    const recordPrevRemains = this.currentPage * this.limitPage;
+    const recordNextRemains = Number(recordValue) - this.getCurrentPage() * this.limitPage;
+    const recordPrevRemains = this.getCurrentPage() * this.limitPage;
 
     if (recordNextRemains >= 1) {
       this.nextBtn.element.disabled = false;
