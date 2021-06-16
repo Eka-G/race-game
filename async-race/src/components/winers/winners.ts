@@ -1,6 +1,6 @@
 import PageStructure from '../page-structure';
 import Table from '../table';
-import { winnersState, url } from '../../shared';
+import { ChangeWinnersEvent, winnersState, url } from '../../shared';
 
 class WinnersContent extends PageStructure {
   private winPage = new Table();
@@ -14,17 +14,17 @@ class WinnersContent extends PageStructure {
       setCurrentPage: (currentPage: number) => {
         winnersState.currentPage = currentPage;
       },
-      limitPage: winnersState.currentPage,
+      limitPage: winnersState.limit,
       updateFunc: () => {},
     });
 
-    // super.updateFunc = () => this.garagePage.updateContent();
     super.content = this.winPage;
+    super.updateFunc = () => this.winPage.updateBody();
 
-    // window.addEventListener(ChangeGarageEvent.eventName, () => {
-    //   this.updateTitles();
-    //   this.updateBtns();
-    // });
+    window.addEventListener(ChangeWinnersEvent.eventName, () => {
+      this.updateTitles();
+      this.updateBtns();
+    });
   }
 }
 
