@@ -1,5 +1,5 @@
 import TableCell from '../table-cell';
-import { ChangeWinOpsEvent, winnersState } from '../../shared';
+import { RerenderWinnersEvent, winnersState } from '../../shared';
 import './time-cell.scss';
 
 class TimeCell extends TableCell {
@@ -11,7 +11,7 @@ class TimeCell extends TableCell {
     this.element.addEventListener('click', () => {
       winnersState.sort = 'time';
       winnersState.order = winnersState.order === 'ASD' ? 'DESC' : 'ASD';
-      window.dispatchEvent(new ChangeWinOpsEvent());
+      window.dispatchEvent(new RerenderWinnersEvent());
     });
   }
 }

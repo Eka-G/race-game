@@ -2,7 +2,7 @@ import type { WinResponce } from '../../types';
 import TableWinnerRow from '../table-winner-row';
 import TableHead from '../table-head';
 import BaseComponent from '../base-component';
-import { ChangeWinnersEvent, winnersState, WinEvent, ChangeWinOpsEvent, url } from '../../shared';
+import { ChangeWinnersEvent, winnersState, WinEvent, RerenderWinnersEvent, url } from '../../shared';
 import './table.scss';
 
 class Table extends BaseComponent<HTMLTableElement> {
@@ -17,7 +17,7 @@ class Table extends BaseComponent<HTMLTableElement> {
     this.updateBody();
 
     window.addEventListener(WinEvent.eventName, () => this.updateBody());
-    window.addEventListener(ChangeWinOpsEvent.eventName, () => {
+    window.addEventListener(RerenderWinnersEvent.eventName, () => {
       this.updateBody();
     });
   }

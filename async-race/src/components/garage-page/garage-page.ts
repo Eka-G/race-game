@@ -1,7 +1,16 @@
 import type { CreateEventDetail, CarInterface, WinEventDetail } from '../../types';
 import BaseComponent from '../base-component';
 import RaceParticipant from '../race-participant';
-import { CreateEvent, DeleteEvent, UpdateEvent, ChangeGarageEvent, WinEvent, url, garageState } from '../../shared';
+import {
+  CreateEvent,
+  DeleteEvent,
+  UpdateEvent,
+  ChangeGarageEvent,
+  RerenderWinnersEvent,
+  WinEvent,
+  url,
+  garageState,
+} from '../../shared';
 import Modal from '../modal';
 
 class GaragePage extends BaseComponent {
@@ -71,6 +80,12 @@ class GaragePage extends BaseComponent {
 
   private async removeCar(carId: number) {
     await fetch(`${url.garage}/${carId}`, { method: 'DELETE' });
+
+    const isWinnerRes = await fetch(`${url.winners}/${carId}`);
+    if (isWinnerRes.ok) {
+      await fetch(`${url.winners}/${carId}`, { method: 'DELETE' });
+      window.dispatchEvent(new RerenderWinnersEvent());
+    }
 
     this.updateContent();
   }
