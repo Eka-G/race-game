@@ -12,11 +12,18 @@ class TableHead extends BaseComponent {
     super('thead', ['table__head']);
 
     const numberCell = new TableCell('Number');
-    const carCell = new TableCell('Car');
+    const carCell = new TableCell('Car color');
+    const nameCell = new TableCell('Name');
     const winsCell = new TableCell('Wins');
     const timeCell = new TableCell('Best time, sec');
 
-    this.row = new TableRow([numberCell.element, carCell.element, winsCell.element, timeCell.element]);
+    this.row = new TableRow([
+      numberCell.element,
+      carCell.element,
+      nameCell.element,
+      winsCell.element,
+      timeCell.element,
+    ]);
 
     this.element.appendChild(this.row.element);
   }

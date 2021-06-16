@@ -24,3 +24,9 @@ export interface WinEventDetail {
   id: number;
   time: number;
 }
+
+export interface WinResponce {
+  wins: number;
+  time: number;
+  id: number;
+}

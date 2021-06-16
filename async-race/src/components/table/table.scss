@@ -1,3 +1,17 @@
 .table {
   font-size: 1.5rem;
 }
+
+.car-cell {
+  mask-image: url(../../assets/car.svg);
+  mask-size: 60px 25px;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url(../../assets/car.svg);
+  -webkit-mask-size: 60px 25px;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+
+  background-size: contain;
+  transform: scale(-1, 1);
+}
