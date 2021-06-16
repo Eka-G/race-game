@@ -4,6 +4,7 @@ export { default as SelectEvent } from './select-event';
 export { default as UpdateEvent } from './update-event';
 export { default as ChangeGarageEvent } from './change-garage-event';
 export { default as ChangeWinnersEvent } from './change-winners-event';
+export { default as ChangeWinOpsEvent } from './change-winops-event';
 export { default as StartCarEvent } from './start-car-event';
 export { default as StopCarEvent } from './stop-car-event';
 export { default as PauseEngineEvent } from './pause-engine-event';

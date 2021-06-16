@@ -30,3 +30,11 @@ export interface WinResponce {
   time: number;
   id: number;
 }
+
+export type WinnersSort = 'id' | 'wins' | 'time';
+export type WinnersOrder = 'ASD' | 'DESC';
+
+export interface ChangeWinOpsDetail {
+  sort?: WinnersSort;
+  order?: WinnersOrder;
+}

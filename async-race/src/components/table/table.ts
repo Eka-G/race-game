@@ -2,7 +2,7 @@ import type { WinResponce } from '../../types';
 import TableWinnerRow from '../table-winner-row';
 import TableHead from '../table-head';
 import BaseComponent from '../base-component';
-import { ChangeWinnersEvent, winnersState, WinEvent, url } from '../../shared';
+import { ChangeWinnersEvent, winnersState, WinEvent, ChangeWinOpsEvent, url } from '../../shared';
 import './table.scss';
 
 class Table extends BaseComponent<HTMLTableElement> {
@@ -17,6 +17,9 @@ class Table extends BaseComponent<HTMLTableElement> {
     this.updateBody();
 
     window.addEventListener(WinEvent.eventName, () => this.updateBody());
+    window.addEventListener(ChangeWinOpsEvent.eventName, () => {
+      this.updateBody();
+    });
   }
 
   private static getIndex(value: number) {
@@ -25,7 +28,17 @@ class Table extends BaseComponent<HTMLTableElement> {
 
   public async updateBody() {
     this.content.innerHTML = '';
-    const winResponse = await fetch(`${url.winners}?_page=${winnersState.currentPage}&_limit=${winnersState.limit}`);
+    const winnersUrl = new URL(url.winners);
+
+    const { searchParams } = winnersUrl;
+
+    searchParams.append('_page', winnersState.currentPage.toString());
+    searchParams.append('_limit', winnersState.limit.toString());
+
+    if (winnersState.sort) searchParams.append('_sort', winnersState.sort);
+    if (winnersState.order) searchParams.append('_order', winnersState.order);
+
+    const winResponse = await fetch(winnersUrl.href);
     const winners: WinResponce[] = await winResponse.json();
 
     winners.forEach((winner, i) => {

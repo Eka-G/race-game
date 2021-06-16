@@ -1,4 +1,6 @@
 import TableCell from '../table-cell';
+import WinsCell from '../wins-cell';
+import TimeCell from '../time-cell';
 import TableRow from '../table-row';
 import BaseComponent from '../base-component';
 import './table-head.scss';
@@ -14,8 +16,8 @@ class TableHead extends BaseComponent {
     const numberCell = new TableCell('Number');
     const carCell = new TableCell('Car color');
     const nameCell = new TableCell('Name');
-    const winsCell = new TableCell('Wins');
-    const timeCell = new TableCell('Best time, sec');
+    const winsCell = new WinsCell();
+    const timeCell = new TimeCell();
 
     this.row = new TableRow([
       numberCell.element,
