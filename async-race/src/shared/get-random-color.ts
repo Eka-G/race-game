@@ -2,7 +2,8 @@ export default function getRandomColor() {
   const maxShade = 256;
 
   function genereteShade() {
-    return Math.floor(Math.random() * maxShade).toString(16);
+    const shade = Math.floor(Math.random() * maxShade).toString(16);
+    return shade.length === 1 ? `0${shade}` : shade;
   }
 
   const color = `#${genereteShade()}${genereteShade()}${genereteShade()}`;
