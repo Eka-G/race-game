@@ -30,12 +30,13 @@ class Car extends BaseComponent {
 
       this.animation.onfinish = async () => {
         if (winnerState.winner || !data.id) return;
-        const time = (animationSpeed / 1000).toFixed(1);
+        const timeStr = (animationSpeed / 1000).toFixed(1);
+        const time = +timeStr;
 
         winnerState.winner = {
           name: data.name,
           id: data.id,
-          time: Number(time),
+          time,
         };
 
         const winnerRes = await fetch(`${url.winners}/${data.id}`);
@@ -46,7 +47,7 @@ class Car extends BaseComponent {
             body: JSON.stringify({
               id: data.id,
               wins: 1,
-              time,
+              time: timeStr,
             }),
             headers: {
               'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ class Car extends BaseComponent {
             method: 'PUT',
             body: JSON.stringify({
               wins: winner.wins + 1,
-              time: Number(time),
+              time: winner.time > time ? time : winner.time,
             }),
             headers: {
               'Content-Type': 'application/json',
