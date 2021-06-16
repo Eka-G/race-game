@@ -4,9 +4,9 @@ import { appendElements } from '../../shared';
 import './header.scss';
 
 class Header extends BaseComponent {
-  private garageBtn = new Button('Check garage');
+  public garageBtn = new Button('Check garage');
 
-  private winnersBtn = new Button('Check winners');
+  public winnersBtn = new Button('Check winners');
 
   constructor() {
     super('header', ['header']);
