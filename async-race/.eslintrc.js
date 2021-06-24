@@ -5,7 +5,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2017,
   },
-  extends: ['prettier'],
+  extends: ['airbnb-typescript/base', 'prettier', 'eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   overrides: [
     {
       files: ['*.ts'],
@@ -13,7 +13,6 @@ module.exports = {
         browser: true,
         es2021: true,
       },
-      extends: ['airbnb-typescript/base', 'prettier'],
       parserOptions: {
         ecmaVersion: 12,
         sourceType: 'module',

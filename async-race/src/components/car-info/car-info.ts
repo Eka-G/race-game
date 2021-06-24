@@ -24,7 +24,7 @@ class CarInfo extends BaseComponent {
     CarInfo.addListener(this.selectButton.element, new SelectEvent(this.carId));
   }
 
-  private static addListener(elem: HTMLButtonElement, customEvent: CustomEvent, needUpdate: boolean = false) {
+  private static addListener(elem: HTMLButtonElement, customEvent: CustomEvent, needUpdate = false) {
     elem.addEventListener('click', () => {
       window.dispatchEvent(customEvent);
 

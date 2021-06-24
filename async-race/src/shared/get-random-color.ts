@@ -1,4 +1,4 @@
-export default function getRandomColor() {
+export default function getRandomColor(): string {
   const maxShade = 256;
 
   function genereteShade() {

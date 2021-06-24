@@ -26,7 +26,7 @@ class Table extends BaseComponent<HTMLTableElement> {
     return winnersState.limit * winnersState.currentPage + value - winnersState.limit;
   }
 
-  public async updateBody() {
+  public async updateBody(): Promise<void> {
     this.content.innerHTML = '';
     const winnersUrl = new URL(url.winners);
 

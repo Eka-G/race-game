@@ -88,7 +88,7 @@ class PageStructure extends BaseComponent {
     });
   }
 
-  public async updateTitles() {
+  public async updateTitles(): Promise<void> {
     const recordValue = await this.countRecords();
 
     if (!(this.mainTitle && this.pageTitle)) return;
@@ -101,7 +101,7 @@ class PageStructure extends BaseComponent {
     if (carRemains >= 1) this.nextBtn.element.disabled = false;
   }
 
-  public async updateBtns() {
+  public async updateBtns(): Promise<void> {
     const recordValue = await this.countRecords();
 
     const recordNextRemains = Number(recordValue) - this.getCurrentPage() * this.limitPage;

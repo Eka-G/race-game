@@ -62,7 +62,7 @@ class GaragePage extends BaseComponent {
     this.element.innerHTML = '';
   }
 
-  public updateContent() {
+  public updateContent(): void {
     this.showCars(garageState.currentPage, garageState.limit);
 
     window.dispatchEvent(new ChangeGarageEvent());
